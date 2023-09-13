@@ -1,6 +1,7 @@
 import 'package:animated_background/animated_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_joystick/flutter_joystick.dart';
+import 'dart:math' as math;
 
 class StartPage extends StatefulWidget {
   const StartPage({Key? key}) : super(key: key);
@@ -15,13 +16,15 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
   double _y = 100;
   var step = 10.0;
 
+  bool mirror = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
             child: Stack(
       children: [
-        Fish(_x, _y),
+        mirror ? Fish(_x, _y) : Fish2(_x, _y),
         Positioned(
           left: 20,
           bottom: 20,
@@ -29,6 +32,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
             mode: _joystickMode,
             listener: (details) {
               setState(() {
+                details.x < 0 ? mirror = true : mirror = false;
                 _x = _x + step * details.x;
                 _y = _y + step * details.y;
               });
@@ -73,5 +77,30 @@ class Fish extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class Fish2 extends StatelessWidget {
+  final double x;
+  final double y;
+
+  const Fish2(this.x, this.y, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        left: x,
+        top: y,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationY(math.pi),
+          child: SizedBox(
+            child: Image.asset(
+              'assets/images/angry_fish.png',
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ));
   }
 }
