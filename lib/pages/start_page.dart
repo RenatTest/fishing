@@ -21,7 +21,7 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
         body: SafeArea(
             child: Stack(
       children: [
-        Ball(_x, _y),
+        Fish(_x, _y),
         Positioned(
           left: 20,
           bottom: 20,
@@ -54,11 +54,11 @@ class _StartPageState extends State<StartPage> with TickerProviderStateMixin {
   }
 }
 
-class Ball extends StatelessWidget {
+class Fish extends StatelessWidget {
   final double x;
   final double y;
 
-  const Ball(this.x, this.y, {Key? key}) : super(key: key);
+  const Fish(this.x, this.y, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
